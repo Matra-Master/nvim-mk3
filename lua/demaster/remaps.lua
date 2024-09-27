@@ -18,22 +18,15 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<C-w>n', '<C-\\><C-n>', {desc = 'Exit Terminal mode'})
 
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', { desc = 'Move focus to the left window', silent = true })
-vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', { desc = 'Move focus to the right window', silent = true })
-vim.keymap.set('n', '<C-j>', ':wincmd j<CR>', { desc = 'Move focus to the lower window', silent = true })
-vim.keymap.set('n', '<C-k>', ':wincmd k<CR>', { desc = 'Move focus to the upper window', silent = true })
-
 -- [[Fran's specials]]
 --
---vim.keymap.set("n", "<leader>a", ":wincmd h<CR>", {desc = 'Move to left window'})
---vim.keymap.set("n", "<leader>s", ":wincmd j<CR>", {desc = 'Move to window down'})
---vim.keymap.set("n", "<leader>w", ":wincmd k<CR>", {desc = 'Move to window up'})
---vim.keymap.set("n", "<leader>d", ":wincmd l<CR>", {desc = 'Move to right window'})
---
+vim.keymap.set("n", "<leader>a", ":wincmd h<CR>", {desc = 'Move to left window', silent = true })
+vim.keymap.set("n", "<leader>s", ":wincmd j<CR>", {desc = 'Move to window down', silent = true })
+vim.keymap.set("n", "<leader>w", ":wincmd k<CR>", {desc = 'Move to window up', silent = true })
+vim.keymap.set("n", "<leader>d", ":wincmd l<CR>", {desc = 'Move to right window', silent = true })
+
 
 vim.keymap.set("n", "<C-j>", ":cnext<CR>", {desc = 'Go to next error in the C error List'})
 vim.keymap.set("n", "<C-k>", ":cprevious<CR>", {desc = 'Go to previous error in the C error List'})
@@ -69,19 +62,18 @@ vim.keymap.set("i", ",,", "<Esc>A,<Esc>", {desc = 'Insert a , at the end of a li
 --Delete to void what you have selected and paste your previous yanked stuff
 vim.keymap.set("v", "<leader>p", '"_dP', {desc = '', silent = true })
 -- Copy to clipboard
-vim.keymap.set("v", "<leader>y", '"+y', {desc = 'Yank to clipboard in visual mode', silent = true })
-vim.keymap.set("n", "<leader>Y", '"+yg_', {desc = '', silent = true })
-vim.keymap.set("n", "<leader>y", '"+y', {desc = '', silent = true })
+vim.keymap.set("v", "<leader>y", '"+y', {desc = '[Y]ank to clipboard', silent = true })
+vim.keymap.set("n", "<leader>Y", '"+yg_', {desc = '[Y]ank line to clipboard', silent = true })
+vim.keymap.set("n", "<leader>y", '"+y', {desc = '[Y]ank to clipboard', silent = true })
 
 -- Paste from clipboard
-vim.keymap.set("n", "<leader>p", '"+p', {desc = '', silent = true })
-vim.keymap.set("n", "<leader>P", '"+P', {desc = '', silent = true })
--- vim.keymap.set("v", "<leader>p", '"+p') -- repeated command conflicts with the greatest remap ever
-vim.keymap.set("v", "<leader>P", '"+P', {desc = '', silent = true })
+vim.keymap.set("n", "<leader>p", '"+p', {desc = '[P]aste from clipboard', silent = true })
+vim.keymap.set("n", "<leader>P", '"+P', {desc = '[P]aste from clipboard', silent = true })
+vim.keymap.set("v", "<leader>P", '"+P', {desc = '[P]aste from clipboard', silent = true })
 
 
 --Make the file executable right now!
-vim.keymap.set("n", "<leader>x", ":silent !chmod u+x %<CR>", {desc = ''})
+vim.keymap.set("n", "<leader>x", ":silent !chmod u+x %<CR>", {desc = 'Make file e[X]ecutable'})
 
 --
 --     Simple tab Splits

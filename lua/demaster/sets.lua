@@ -37,7 +37,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.opt.signcolumn = 'number'
+--vim.opt.signcolumn = 'number'
 
 -- Decrease update time
 vim.opt.updatetime = 250
@@ -76,7 +76,7 @@ vim.opt.showtabline = 0
 --vim.opt.copyindent = true
 vim.opt.expandtab = true
 vim.opt.laststatus = 3
-vim.opt.colorcolumn = "120"
+vim.opt.colorcolumn = '120'
 
 vim.g.netrw_banner = 0
 vim.g.netrw_altv = 1
@@ -98,3 +98,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+vim.filetype.add {
+  extension = {
+    coffee = 'coffee',
+  },
+}
