@@ -193,6 +193,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]uzzy [F]ind Files' })
       vim.keymap.set('n', '<leader>tb', builtin.builtin, { desc = '[T]elescope list [B]uiltins' })
       vim.keymap.set('n', '<leader>th', builtin.help_tags, { desc = '[T]elescope Search [H]elp' })
+      vim.keymap.set('n', '<leader>tt', builtin.colorscheme, { desc = '[T]elescope [T]heme selection' })
       vim.keymap.set('n', '<leader>tk', builtin.keymaps, { desc = '[T]elescope Search [K]eymaps' })
       vim.keymap.set('n', '<leader>ts', builtin.builtin, { desc = '[T]elescope Search [S]elect Telescope' })
       vim.keymap.set('n', '<leader>tw', builtin.grep_string, { desc = '[T]elescope Search current [W]ord' })
