@@ -172,7 +172,26 @@ require('lazy').setup({
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+          buffers = {
+            mappings = {
+              n = {
+                ['<c-d>'] = require('telescope.actions').delete_buffer,
+              }, -- n
+              i = {
+                ['<C-h>'] = 'which_key',
+                ['<c-d>'] = require('telescope.actions').delete_buffer,
+              }, -- i
+            }, -- mappings
+          },
+          live_grep = {
+            path_display = { 'truncate' },
+            prompt_prefix = '🔍',
+            disable_coordinates = true,
+            layout_strategy = 'vertical',
+            previewer = false,
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
