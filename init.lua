@@ -636,6 +636,13 @@ require('lazy').setup({
         flavour = 'mocha', -- latte, frappe, macchiato, mocha
         transparent_background = true, -- disables setting the background color.
         -- term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+        highlight_overrides = {
+          all = function(colors)
+            return {
+              LineNr = { fg = colors.text },
+            }
+          end,
+        },
       }
       -- Load the colorscheme here.
       vim.cmd.colorscheme 'catppuccin'
