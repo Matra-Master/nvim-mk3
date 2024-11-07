@@ -468,7 +468,7 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
+    event = {},
     cmd = { 'ConformInfo' },
     keys = {
       {
