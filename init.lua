@@ -406,7 +406,6 @@ require('lazy').setup({
         rust_analyzer = {},
         intelephense = {}, --php
         ansiblels = {},
-        --coffeesense = {},
         -- fish_lsp = {},
         html = {},
         htmx = {},
@@ -444,13 +443,9 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'coffeesense-language-server', -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      vim.list_extend(servers, {
-        'coffeesense',
-      })
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
