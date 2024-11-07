@@ -403,7 +403,7 @@ require('lazy').setup({
       local servers = {
         ts_ls = {}, --typescript
         pyright = {}, --python
-        rust_analyzer = {},
+        --rust_analyzer = {},
         intelephense = {}, --php
         ansiblels = {},
         -- fish_lsp = {},
