@@ -22,10 +22,10 @@ vim.keymap.set('t', '<C-w>n', '<C-\\><C-n>', {desc = 'Exit Terminal mode'})
 --  See `:help wincmd` for a list of all window commands
 -- [[Fran's specials]]
 --
-vim.keymap.set("n", "<leader>a", ":wincmd h<CR>", {desc = 'Move to left window', silent = true })
-vim.keymap.set("n", "<leader>s", ":wincmd j<CR>", {desc = 'Move to window down', silent = true })
-vim.keymap.set("n", "<leader>w", ":wincmd k<CR>", {desc = 'Move to window up', silent = true })
-vim.keymap.set("n", "<leader>d", ":wincmd l<CR>", {desc = 'Move to right window', silent = true })
+-- vim.keymap.set("n", "<leader>a", ":wincmd h<CR>", {desc = 'Move to left window', silent = true })
+-- vim.keymap.set("n", "<leader>s", ":wincmd j<CR>", {desc = 'Move to window down', silent = true })
+-- vim.keymap.set("n", "<leader>w", ":wincmd k<CR>", {desc = 'Move to window up', silent = true })
+-- vim.keymap.set("n", "<leader>d", ":wincmd l<CR>", {desc = 'Move to right window', silent = true })
 
 
 vim.keymap.set("n", "<C-j>", ":cnext<CR>", {desc = 'Go to next error in the C error List'})
