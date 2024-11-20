@@ -401,7 +401,10 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        ts_ls = {}, --typescript
+        ts_ls = {
+          root_dir = require('lspconfig').util.root_pattern("package.json"),
+          single_file_support = false
+        }, --typescript
         pyright = {}, --python
         --rust_analyzer = {},
         intelephense = {}, --php
@@ -410,6 +413,9 @@ require('lazy').setup({
         html = {},
         htmx = {},
         dockerls = {},
+        denols = {
+          root_dir = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc"),
+        },
         -- clangd = {},
         -- gopls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -500,6 +506,7 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "deno_fmt" },
       },
     },
   },
