@@ -561,7 +561,29 @@ require('lazy').setup({
             luasnip.lsp_expand(args.body)
           end,
         },
-        completion = { completeopt = 'menu,menuone,noinsert' },
+        --completion = { completeopt = 'menu,menuone,noinsert' },
+        -- window = {
+        --   completion = cmp.config.window.bordered(),
+        --   documentation = cmp.config.window.bordered(),
+        -- },
+        formatting = {
+          expandable_indicator = true,
+          fields = { 'menu', 'abbr', 'kind' },
+          format = function(entry, item)
+            local menu_icon = {
+              -- codeium = '',
+              nvim_lsp = 'λ',
+              luasnip = '⋗',
+              buffer = 'Ω',
+              path = '🖫',
+              nvim_lua = 'Π',
+              snippet = '',
+            }
+
+            item.menu = menu_icon[entry.source.name]
+            return item
+          end,
+        },
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
@@ -612,15 +634,15 @@ require('lazy').setup({
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
         sources = {
+          { name = 'path' }, -- It appears to fail but I don't know why
           {
             name = 'lazydev',
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
           { name = 'nvim_lsp' },
-          --{name = 'nvim_lua'},
+          { name = 'nvim_lua' },
           { name = 'luasnip' },
-          { name = 'path' },
         },
       }
     end,
@@ -693,6 +715,15 @@ require('lazy').setup({
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
         additional_vim_regex_highlighting = { 'ruby' },
+      },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = '<CR>',
+          scope_incremental = '<CR>',
+          node_incremental = '<TAB>',
+          node_decremental = '<S-TAB>',
+        },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
