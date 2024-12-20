@@ -659,27 +659,27 @@ require('lazy').setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'catppuccin/nvim',
     name = 'catppuccin',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- setup here
-      require('catppuccin').setup {
-        flavour = 'mocha', -- latte, frappe, macchiato, mocha
-        transparent_background = true, -- disables setting the background color.
-        -- term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
-        highlight_overrides = {
-          all = function(colors)
-            return {
-              LineNr = { fg = colors.text },
-            }
-          end,
-        },
-      }
-      -- Load the colorscheme here.
-      vim.cmd.colorscheme 'catppuccin'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
-    end,
+    --priority = 1000, -- Make sure to load this before all the other start plugins.
+    -- init = function()
+    --   -- setup here
+    --   require('catppuccin').setup {
+    --     flavour = 'mocha', -- latte, frappe, macchiato, mocha
+    --     transparent_background = true, -- disables setting the background color.
+    --     -- term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+    --     highlight_overrides = {
+    --       all = function(colors)
+    --         return {
+    --           LineNr = { fg = colors.text },
+    --         }
+    --       end,
+    --     },
+    --   }
+    --   -- Load the colorscheme here.
+    --   -- vim.cmd.colorscheme 'catppuccin'
+    --
+    --   -- You can configure highlights by doing something like:
+    --   -- vim.cmd.hi 'Comment gui=none'
+    -- end,
   },
 
   -- Highlight todo, notes, etc in comments
