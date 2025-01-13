@@ -343,9 +343,9 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
-          map('<leader>gp',  vim.diagnostic.goto_prev, '[G]o to [P]revious Diagnostic')
-          map('<leader>gn',  vim.diagnostic.goto_next, '[G]o to [N]ext Diagnostic')
-          map('<leader>gk',  vim.diagnostic.open_float, 'Dia[g]nostic hover [K]')
+          map('<leader>gp', vim.diagnostic.goto_prev, '[G]o to [P]revious Diagnostic')
+          map('<leader>gn', vim.diagnostic.goto_next, '[G]o to [N]ext Diagnostic')
+          map('<leader>gk', vim.diagnostic.open_float, 'Dia[g]nostic hover [K]')
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -406,8 +406,8 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         ts_ls = {
-          root_dir = require('lspconfig').util.root_pattern("package.json"),
-          single_file_support = false
+          root_dir = require('lspconfig').util.root_pattern 'package.json',
+          single_file_support = false,
         }, --typescript
         pyright = {}, --python
         --rust_analyzer = {},
@@ -419,7 +419,7 @@ require('lazy').setup({
         htmx = {},
         dockerls = {},
         denols = {
-          root_dir = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc"),
+          root_dir = require('lspconfig').util.root_pattern('deno.json', 'deno.jsonc'),
         },
         -- clangd = {},
         -- gopls = {},
@@ -512,7 +512,7 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
-        typescript = { "deno_fmt" },
+        typescript = { 'deno_fmt' },
       },
     },
   },
