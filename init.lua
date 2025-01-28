@@ -731,7 +731,7 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
       vim.filetype.add({
-        pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+        pattern = { [".*/hypr/.*%.conf"] = "hyprlang", [".env*"] = "env" },
       })
     },
     -- There are additional nvim-treesitter modules that you can use to interact
