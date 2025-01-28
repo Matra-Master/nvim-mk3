@@ -38,4 +38,5 @@ return {
   -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   default_file_explorer = true,
   vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = 'Open parent directory', silent = true }),
+  vim.keymap.set('n', '<leader>E', ':lua require("oil").open_float()<CR>', { desc = 'Open parent directory', silent = true }),
 }
