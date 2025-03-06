@@ -75,8 +75,8 @@ vim.keymap.set('n', '<leader>P', '"+P', { desc = '[P]aste from clipboard', silen
 vim.keymap.set('v', '<leader>P', '"+P', { desc = '[P]aste from clipboard', silent = true })
 
 --Make the file executable right now!
-vim.keymap.set('n', '<leader>x', ':silent !chmod u+x %<CR>', { desc = 'Make file e[X]ecutable' })
-
+vim.keymap.set("n", "<leader>x", ":silent !chmod u+x %<CR>", {desc = 'Make file e[X]ecutable'})
+vim.keymap.set("v", "<leader>x", ":lua<CR>", {desc = 'E[X]ecute a Lua snippet'})
 --
 --     Simple tab Splits
 --
