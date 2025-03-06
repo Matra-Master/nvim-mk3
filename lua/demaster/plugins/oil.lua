@@ -12,6 +12,18 @@ return {
     view_options = {
       show_hidden = true,
     },
+    columns = { "icon" },
+    win_options = {
+      wrap = false,
+      number = false,
+      signcolumn = "no",
+      cursorcolumn = false,
+      foldcolumn = "0",
+      spell = false,
+      list = false,
+      conceallevel = 3,
+      concealcursor = "nvic",
+    },
     buf_options = {
       buflisted = false,
       bufhidden = 'hide',
@@ -34,12 +46,25 @@ return {
       override = function(conf)
         return conf
       end,
+      keymaps = {
+        ["<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open in a Vertical split" },
+        ["<C-x>"] = { "actions.select", opts = { horizontal = true }, desc = "Open in a Horizontal split" },
+      }
+
     },
   },
   -- Optional dependencies
   dependencies = { { 'echasnovski/mini.icons', opts = {} } },
   -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   default_file_explorer = true,
-  vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = 'Open parent directory', silent = true }),
-  vim.keymap.set('n', '<leader>E', ':lua require("oil").open_float()<CR>', { desc = 'Open parent directory', silent = true }),
+  -- vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = 'Open parent directory', silent = true }),
+  vim.keymap.set('n', '-', ':Oil<CR>', { desc = 'Open parent directory', silent = true }),
+  -- vim.keymap.set('n', '<leader>-', ':lua require("oil").open_float()<CR>', { desc = 'Open parent directory', silent = true }),
+  vim.keymap.set("n", "<leader>-", function()
+    vim.cmd.vnew()
+    vim.cmd.Oil()
+    vim.cmd.wincmd("H")
+    local window_width = math.floor((vim.api.nvim_win_get_width(0) * 2) /4);
+    vim.api.nvim_win_set_width(0, window_width)
+  end, {desc = "Open parent directory"})
 }
