@@ -15,13 +15,13 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 --vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-vim.keymap.set('t', '<C-w>n', '<C-\\><C-n>', { desc = 'Exit Terminal mode' })
-vim.keymap.set('n', '<leader>te', function()
+vim.keymap.set('t', '<C-w>n', '<C-\\><C-n>', {desc = 'Exit Terminal mode'})
+vim.keymap.set("n", "<leader>te", function()
   vim.cmd.vnew()
   vim.cmd.term()
-  vim.cmd.wincmd 'J'
+  vim.cmd.wincmd("J")
   vim.api.nvim_win_set_height(0, 15)
-end, { desc = 'Exit Terminal mode' })
+end, {desc = "Small [TE]rminal open"})
 
 --
 --  See `:help wincmd` for a list of all window commands
