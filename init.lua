@@ -167,11 +167,11 @@ require('lazy').setup({
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
       require('telescope').setup {
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          mappings = {
+            i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          },
+        },
         pickers = {
           buffers = {
             mappings = {
@@ -731,7 +731,7 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
       vim.filetype.add({
-        pattern = { [".*/hypr/.*%.conf"] = "hyprlang", [".env*"] = "env" },
+        pattern = { [".*/hypr/.*%.conf"] = "hyprlang", [".env*"] = "cfg" },
       })
     },
     -- There are additional nvim-treesitter modules that you can use to interact
