@@ -8,6 +8,7 @@ return {
     "nvim-lua/plenary.nvim",
   },
   opts = {
+    disable_frontmatter = true,
     templates = {
         folder = "5 Templates",
         date_format = "%Y-%m-%d-%a",
