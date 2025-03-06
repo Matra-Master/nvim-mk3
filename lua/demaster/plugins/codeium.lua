@@ -10,7 +10,7 @@ return {
             virtual_text = {
                 enabled = true,
                 -- Set to true if you never want completions to be shown automatically.
-                manual = false,
+                manual = true,
                 -- A mapping of filetype to true or false, to enable virtual text.
                 filetypes = {
                     typescript = false,
@@ -45,5 +45,5 @@ return {
                 }
             }
         })
-    end
+    end,
 }
