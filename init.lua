@@ -221,6 +221,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>tr', builtin.resume, { desc = '[T]elescope Search [R]esume' })
       vim.keymap.set('n', '<leader>t.', builtin.oldfiles, { desc = '[T]elescope Search Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>bl', builtin.buffers, { desc = '[B]uffers [L]ist' })
+      vim.keymap.set('n', '<leader>fl', builtin.buffers, { desc = '[F]ind: Buffers [L]ist' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>f.', function()
@@ -343,6 +344,9 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+          -- Later Fran
+          -- map('<leader>gp', vim.diagnostic.jump{count=1, float=true}, '[G]o to [P]revious Diagnostic')
+          -- map('<leader>gn', vim.diagnostic.jump{count=-1, float=true}, '[G]o to [N]ext Diagnostic')
           map('<leader>gp', vim.diagnostic.goto_prev, '[G]o to [P]revious Diagnostic')
           map('<leader>gn', vim.diagnostic.goto_next, '[G]o to [N]ext Diagnostic')
           map('<leader>gk', vim.diagnostic.open_float, 'Dia[g]nostic hover [K]')
@@ -416,10 +420,26 @@ require('lazy').setup({
         shellcheck = {},
         -- fish_lsp = {},
         html = {},
-        htmx = {},
+        -- htmx = {},
         dockerls = {},
         denols = {
           root_dir = require('lspconfig').util.root_pattern('deno.json', 'deno.jsonc'),
+        },
+        yamlls = {
+          settings = {
+            yaml = {
+              schemas = {
+                kubernetes = 'k8s-*.yaml',
+                ['http://json.schemastore.org/github-workflow'] = '.github/workflows/*',
+                ['http://json.schemastore.org/github-action'] = '.github/action.{yml,yaml}',
+                ['http://json.schemastore.org/ansible-stable-2.9'] = 'roles/tasks/**/*.{yml,yaml}',
+                ['http://json.schemastore.org/prettierrc'] = '.prettierrc.{yml,yaml}',
+                ['http://json.schemastore.org/kustomization'] = 'kustomization.{yml,yaml}',
+                ['http://json.schemastore.org/chart'] = 'Chart.{yml,yaml}',
+                ['http://json.schemastore.org/circleciconfig'] = '.circleci/**/*.{yml,yaml}',
+              },
+            },
+          },
         },
         -- clangd = {},
         -- gopls = {},
@@ -459,6 +479,8 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
+        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+        automatic_installation = false,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -730,9 +752,9 @@ require('lazy').setup({
         },
       },
       indent = { enable = true, disable = { 'ruby' } },
-      vim.filetype.add({
-        pattern = { [".*/hypr/.*%.conf"] = "hyprlang", [".env*"] = "cfg" },
-      })
+      vim.filetype.add {
+        pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang', ['.env*'] = 'cfg' },
+      },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
