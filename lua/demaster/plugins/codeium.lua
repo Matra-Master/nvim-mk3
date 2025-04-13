@@ -8,7 +8,7 @@ return {
         require("codeium").setup({
             enable_cmp_source = false,
             virtual_text = {
-                enabled = true,
+                enabled = false,
                 -- Set to true if you never want completions to be shown automatically.
                 manual = true,
                 -- A mapping of filetype to true or false, to enable virtual text.
