@@ -460,6 +460,9 @@ require('lazy').setup({
             },
           },
         },
+        tailwindcss = {
+            filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+        }
       }
 
       -- Ensure the servers and tools above are installed
@@ -562,10 +565,17 @@ require('lazy').setup({
           {
             'rafamadriz/friendly-snippets',
             config = function()
+              require('luasnip').filetype_extend("javascriptreact", { "html" })
+              require('luasnip').filetype_extend("typescriptreact", { "html" })
               require('luasnip.loaders.from_vscode').lazy_load()
             end,
           },
         },
+        vim.keymap.set({"i", "s"}, '<c-k>', function ()
+          if require("luasnip").expand_or_locally_jumpable() then
+            require("luasnip").expand_or_jump()
+          end
+        end, { desc = 'Code: Expand Snippet', silent = true})
       },
       'saadparwaiz1/cmp_luasnip',
 
