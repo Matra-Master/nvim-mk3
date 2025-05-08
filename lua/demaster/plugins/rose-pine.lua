@@ -8,7 +8,7 @@ return {
 
     -- setup here
     require('rose-pine').setup {
-      transparent_background = true, -- disables setting the background color.
+      transparent_background = false, -- disables setting the background color.
       variant = "moon",
       styles = {
           transparency = true,
