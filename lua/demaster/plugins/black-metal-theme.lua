@@ -9,6 +9,7 @@ return {
       theme = "dark-funeral",
       dark_gutter = false,
       favor_treesitter_hl = true,
+      transparent = true,
       term_colors = true,
       code_style = {
         comments = "italic",
@@ -35,7 +36,7 @@ return {
           -- Reverse lsp-kind items' highlights in blink/cmp menu.
           reverse = false,
         },
-      }
+      },
     })
     require("black-metal").load()
   end,
