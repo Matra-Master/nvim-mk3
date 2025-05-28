@@ -171,6 +171,16 @@ require('lazy').setup({
           mappings = {
             i = { ['<c-enter>'] = 'to_fuzzy_refine' },
           },
+          vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden',
+          },
         },
         pickers = {
           buffers = {
