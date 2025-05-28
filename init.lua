@@ -208,20 +208,18 @@ require('lazy').setup({
 
       -- TODO: there's this thing where I move between splits with WASD so this telescope wont work form me...
 
-      vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[ ] Search Files' })
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]uzzy [F]ind Files' })
-      vim.keymap.set('n', '<leader>tb', builtin.builtin, { desc = '[T]elescope list [B]uiltins' })
+      -- vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[ ] Search Files' })
+      -- vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]uzzy [F]ind Files' })
       vim.keymap.set('n', '<leader>th', builtin.help_tags, { desc = '[T]elescope Search [H]elp' })
       vim.keymap.set('n', '<leader>tt', builtin.colorscheme, { desc = '[T]elescope [T]heme selection' })
       vim.keymap.set('n', '<leader>tk', builtin.keymaps, { desc = '[T]elescope Search [K]eymaps' })
       vim.keymap.set('n', '<leader>ts', builtin.builtin, { desc = '[T]elescope Search [S]elect Telescope' })
       vim.keymap.set('n', '<leader>tw', builtin.grep_string, { desc = '[T]elescope Search current [W]ord' })
-      vim.keymap.set('n', '<leader>tg', builtin.live_grep, { desc = '[T]elescope Search by [G]rep' })
+      -- vim.keymap.set('n', '<leader>tg', builtin.live_grep, { desc = '[T]elescope Search by [G]rep' })
       vim.keymap.set('n', '<leader>td', builtin.diagnostics, { desc = '[T]elescope Search [D]iagnostics' })
       vim.keymap.set('n', '<leader>tr', builtin.resume, { desc = '[T]elescope Search [R]esume' })
       vim.keymap.set('n', '<leader>t.', builtin.oldfiles, { desc = '[T]elescope Search Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>bl', builtin.buffers, { desc = '[B]uffers [L]ist' })
-      vim.keymap.set('n', '<leader>fl', builtin.buffers, { desc = '[F]ind: Buffers [L]ist' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>f.', function()
@@ -350,6 +348,7 @@ require('lazy').setup({
           map('<leader>gp', vim.diagnostic.goto_prev, '[G]o to [P]revious Diagnostic')
           map('<leader>gn', vim.diagnostic.goto_next, '[G]o to [N]ext Diagnostic')
           map('<leader>gk', vim.diagnostic.open_float, 'Dia[g]nostic hover [K]')
+          map('<leader>K', vim.lsp.buf.hover, 'Dia[g]nostic hover [K]')
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -410,8 +409,8 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         ts_ls = {
-          root_dir = require('lspconfig').util.root_pattern 'package.json',
-          single_file_support = false,
+          root_dir = require('lspconfig').util.root_pattern('tsconfig.json', 'jsconfig.json', 'package.json', '.git'),
+          single_file_support = true,
         }, --typescript
         pyright = {}, --python
         --rust_analyzer = {},
@@ -819,3 +818,11 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+vim.cmd.colorscheme 'retrobox'
+vim.cmd [[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+  highlight Normal ctermbg=none
+  highlight NonText ctermbg=none
+]]
+
