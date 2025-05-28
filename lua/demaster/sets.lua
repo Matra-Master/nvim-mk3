@@ -86,6 +86,8 @@ vim.g.netrw_liststyle = 4
 --vim.opt.swapfile = false
 vim.opt.termguicolors = true
 
+vim.diagnostic.config({ jump = { float = true}})
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -108,9 +110,3 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.opt.relativenumber = false
   end,
 })
-
-vim.filetype.add {
-  extension = {
-    coffee = 'coffee',
-  },
-}

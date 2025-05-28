@@ -343,10 +343,8 @@ require('lazy').setup({
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Later Fran
-          -- map('<leader>gp', vim.diagnostic.jump{count=1, float=true}, '[G]o to [P]revious Diagnostic')
-          -- map('<leader>gn', vim.diagnostic.jump{count=-1, float=true}, '[G]o to [N]ext Diagnostic')
-          map('<leader>gp', vim.diagnostic.goto_prev, '[G]o to [P]revious Diagnostic')
-          map('<leader>gn', vim.diagnostic.goto_next, '[G]o to [N]ext Diagnostic')
+          map('<leader>gp', function() vim.diagnostic.jump{count=-1, float=true} end, '[G]o to [P]revious Diagnostic')
+          map('<leader>gn', function () vim.diagnostic.jump{count=1, float=true} end, '[G]o to [N]ext Diagnostic')
           map('<leader>gk', vim.diagnostic.open_float, 'Dia[g]nostic hover [K]')
           map('<leader>K', vim.lsp.buf.hover, 'Dia[g]nostic hover [K]')
 
@@ -816,8 +814,6 @@ require('lazy').setup({
   },
 })
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
 vim.cmd.colorscheme 'retrobox'
 vim.cmd [[
   highlight Normal guibg=none
@@ -825,4 +821,6 @@ vim.cmd [[
   highlight Normal ctermbg=none
   highlight NonText ctermbg=none
 ]]
-
+--
+-- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et
