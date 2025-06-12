@@ -59,7 +59,7 @@ return {
   default_file_explorer = true,
   -- vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = 'Open parent directory', silent = true }),
   vim.keymap.set('n', '-', ':Oil<CR>', { desc = 'Open parent directory', silent = true }),
-  -- vim.keymap.set('n', '<leader>-', ':lua require("oil").open_float()<CR>', { desc = 'Open parent directory', silent = true }),
+  vim.keymap.set('n', '<leader>_', ':lua require("oil").open_float()<CR>', { desc = 'Open parent directory', silent = true }),
   vim.keymap.set("n", "<leader>-", function()
     vim.cmd.vnew()
     vim.cmd.Oil()
