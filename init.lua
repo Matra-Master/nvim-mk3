@@ -363,16 +363,16 @@ require('lazy').setup({
           ---@param bufnr? integer some lsp support methods only in specific files
           ---@return boolean
           local function client_supports_method(client, method, bufnr)
-            if vim.fn.has 'nvim-0.11' == 1 then
               return client:supports_method(method, bufnr)
-            else
-              return client.supports_method(method, { bufnr = bufnr })
-            end
           end
 
           -- Later Fran
-          map('<leader>gp', function() vim.diagnostic.jump{count=-1, float=true} end, '[G]o to [P]revious Diagnostic')
-          map('<leader>gn', function () vim.diagnostic.jump{count=1, float=true} end, '[G]o to [N]ext Diagnostic')
+          map('<leader>gp', function()
+            vim.diagnostic.jump { count = -1, float = true }
+          end, '[G]o to [P]revious Diagnostic')
+          map('<leader>gn', function()
+            vim.diagnostic.jump { count = 1, float = true }
+          end, '[G]o to [N]ext Diagnostic')
           map('<leader>gk', vim.diagnostic.open_float, 'Dia[g]nostic hover [K]')
           map('<leader>K', vim.lsp.buf.hover, 'Dia[g]nostic hover [K]')
 
@@ -514,8 +514,8 @@ require('lazy').setup({
           },
         },
         tailwindcss = {
-            filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-        }
+          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -622,17 +622,17 @@ require('lazy').setup({
           {
             'rafamadriz/friendly-snippets',
             config = function()
-              require('luasnip').filetype_extend("javascriptreact", { "html" })
-              require('luasnip').filetype_extend("typescriptreact", { "html" })
+              require('luasnip').filetype_extend('javascriptreact', { 'html' })
+              require('luasnip').filetype_extend('typescriptreact', { 'html' })
               require('luasnip.loaders.from_vscode').lazy_load()
             end,
           },
         },
-        vim.keymap.set({"i", "s"}, '<c-k>', function ()
-          if require("luasnip").expand_or_locally_jumpable() then
-            require("luasnip").expand_or_jump()
+        vim.keymap.set({ 'i', 's' }, '<c-k>', function()
+          if require('luasnip').expand_or_locally_jumpable() then
+            require('luasnip').expand_or_jump()
           end
-        end, { desc = 'Code: Expand Snippet', silent = true})
+        end, { desc = 'Code: Expand Snippet', silent = true }),
         opts = {},
       },
       'folke/lazydev.nvim',
@@ -641,54 +641,13 @@ require('lazy').setup({
     --- @type blink.cmp.Config
     opts = {
       keymap = {
-        -- 'default' (recommended) for mappings similar to built-in completions
-        --   <c-y> to accept ([y]es) the completion.
-        --    This will auto-import if your LSP supports it.
-        --    This will expand snippets if the LSP sent a snippet.
-        -- 'super-tab' for tab to accept
-        -- 'enter' for enter to accept
-        -- 'none' for no mappings
-        --
         -- For an understanding of why the 'default' preset is recommended,
         -- you will need to read `:help ins-completion`
-        --
-        -- No, but seriously. Please read `:help ins-completion`, it is really good!
-        --
-        -- All presets have the following mappings:
-        -- <tab>/<s-tab>: move to right/left of your snippet expansion
-        -- <c-space>: Open menu or open docs if already open
-        -- <c-n>/<c-p> or <up>/<down>: Select next/previous item
-        -- <c-e>: Hide menu
-        -- <c-k>: Toggle signature help
-        --
+        preset = 'enter',
+
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        preset = 'default',
-
-        -- If you prefer more traditional completion keymaps,
-        -- you can uncomment the following lines
-        ['<CR>'] = cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        },
-        -- Manually trigger a completion from nvim-cmp.
-        --  Generally you don't need this, because nvim-cmp will display
-        --  completions whenever it has completion options available.
-        ['<C-Space>'] = cmp.mapping.complete {},
-
-        -- <c-l> will move you to the right of each of the expansion locations.
-        -- <c-h> is similar, except moving you backwards.
-        ['<C-l>'] = cmp.mapping(function()
-          if luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
-          end
-        end, { 'i', 's' }),
-        ['<C-h>'] = cmp.mapping(function()
-          if luasnip.locally_jumpable(-1) then
-            luasnip.jump(-1)
-          end
-        end, { 'i', 's' }),
-          -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-          --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+        --  https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
 
       appearance = {
@@ -701,6 +660,12 @@ require('lazy').setup({
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        list = {
+          selection = {
+            preselect = true,
+            auto_insert = false,
+          },
+        },
       },
 
       sources = {
