@@ -666,17 +666,38 @@ require('lazy').setup({
             auto_insert = false,
           },
         },
+        -- Fran mod: shows completion like in nvim-cmp. I don't like it but it's a good example
+        -- menu = { draw = { columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } } } },
       },
 
       sources = {
         -- Fran mod
         -- default = { 'lsp', 'path', 'snippets', 'lazydev', 'nvim_lsp', 'nvim_lua' },
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lazydev', 'lsp', 'snippets', 'path' },
+        per_filetype = {
+          sql = { 'snippets', 'dadbod', 'buffer' },
+        },
         providers = {
-          lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
+          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+          path = {
+            opts = {
+              get_cwd = function(_)
+                return vim.fn.getcwd()
+              end,
+            },
+          },
+          lsp = {
+            transform_items = function(_, items)
+              for _, item in ipairs(items) do
+                item.kind_icon = 'λ'
+                item.kind_name = 'LSP'
+              end
+              return items
+            end
+          }
         },
       },
-
       snippets = { preset = 'luasnip' },
 
       -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
