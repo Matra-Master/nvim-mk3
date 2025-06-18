@@ -674,7 +674,7 @@ require('lazy').setup({
         },
         providers = {
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
-          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+          dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
           path = {
             opts = {
               get_cwd = function(_)
@@ -689,8 +689,8 @@ require('lazy').setup({
                 item.kind_name = 'LSP'
               end
               return items
-            end
-          }
+            end,
+          },
         },
       },
       snippets = { preset = 'luasnip' },
