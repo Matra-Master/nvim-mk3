@@ -59,9 +59,6 @@ vim.opt.listchars = { tab = '▸ ', trail = '·', nbsp = '␣' }
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
 
--- Show which line your cursor is on
-vim.opt.cursorline = false
-
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 4
 
@@ -75,6 +72,8 @@ vim.opt.showtabline = 0
 --vim.opt.smartindent = true
 --vim.opt.copyindent = true
 vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 2
 vim.opt.laststatus = 3
 vim.opt.colorcolumn = '120'
 vim.opt.cursorline = true
@@ -86,7 +85,11 @@ vim.g.netrw_liststyle = 4
 --vim.opt.swapfile = false
 vim.opt.termguicolors = true
 
-vim.diagnostic.config({ jump = { float = true}})
+vim.diagnostic.config { jump = { float = true } }
+
+vim.opt.conceallevel = 0
+vim.opt.wildmenu = true
+vim.opt.wildmode = "noselect"
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -108,5 +111,13 @@ vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
     vim.opt.number = false
     vim.opt.relativenumber = false
+  end,
+})
+
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+  desc = 'Obsidian conceal option on markdown buffers',
+  pattern = {"*.md"},
+  callback = function()
+    vim.opt.conceallevel = 1
   end,
 })
