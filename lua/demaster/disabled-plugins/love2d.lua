@@ -2,7 +2,7 @@ return {
   "S1M0N38/love2d.nvim",
   cmd = "LoveRun",
   opts = {
-    path_to_love_bin = "~/personal/love-games/love.AppImage",
+    -- path_to_love_bin = "~/personal/love-games/love.AppImage",
     -- path_to_love_library = vim.fn.globpath(vim.o.runtimepath, "love2d/library"),
     -- restart_on_save = false,
   },

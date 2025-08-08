@@ -1,3 +1,4 @@
+
 return {
   "christoomey/vim-tmux-navigator",
   cmd = {
@@ -12,4 +13,7 @@ return {
     { "<leader>w", "<cmd>TmuxNavigateUp<cr>", {desc = 'Move to window up', silent = true } },
     { "<leader>d", "<cmd>TmuxNavigateRight<cr>", {desc = 'Move to right window', silent = true } },
   },
+  init = function()
+      vim.g.tmux_navigator_no_mappings = 0
+  end
 }
