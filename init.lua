@@ -778,9 +778,9 @@ require('lazy').setup({
           node_decremental = '<S-TAB>',
         },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      indent = { enable = true, disable = { 'ruby', 'php' } },
       vim.filetype.add {
-        pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang', ['.env*'] = 'cfg' },
+        pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang', ['.env*'] = 'cfg', ['Tiltfile'] = 'starlark' },
       },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
