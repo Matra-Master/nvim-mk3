@@ -2,17 +2,14 @@
 -- Creando tarea desde vim porque puedo
 
 -- ===================================================================
--- MOCK CONFIGURATION
+-- CONFIGURATION
 -- In the next step, we will load this from a file.
 -- ===================================================================
 local config = {
   auth_token = "COMPLETAR_TOKEN",
-  projects = {
-    { id = 6, name = "Infraestructura Tuxdi" },
-    { id = 18, name = "Novathena Legacy" },
-    { id = 20, name = "CAF Access" },
-  },
-  api_endpoint = "https://mng.tuxdi.com/api/v1/userstories",
+  user_id = 5, -- Your user ID
+  api_domain = "https://mng.tuxdi.com", -- Your API domain
+  projects = {},
 }
 
 -- ===================================================================
@@ -33,28 +30,78 @@ end
 -- API CALL LOGIC
 -- ===================================================================
 
+-- Fetches the list of projects from the API and updates the config
+local function update_projects_from_api()
+  vim.notify("Fetching projects from API...")
+
+  local url = string.format(
+    "%s/api/v1/projects?member=%s&order_by=memberships__user_order",
+    config.api_domain,
+    config.user_id
+  )
+
+  local command = {
+    "curl",
+    "-X",
+    "GET",
+    "-H",
+    "Content-Type: application/json",
+    "-H",
+    "Authorization: Bearer " .. config.auth_token,
+    "-s",
+    url,
+  }
+
+  vim.system(command, function(obj)
+    vim.schedule(function()
+      if obj.code ~= 0 then
+        vim.notify("Error fetching projects: " .. obj.stderr, vim.log.levels.ERROR)
+        return
+      end
+
+      local ok, projects_data = pcall(vim.fn.json_decode, obj.stdout)
+      if not ok then
+        vim.notify("Error parsing projects JSON from API response.", vim.log.levels.ERROR)
+        return
+      end
+
+      local new_projects = {}
+      for _, project in ipairs(projects_data) do
+        if project.id and project.name then
+          table.insert(new_projects, { id = project.id, name = project.name })
+        end
+      end
+      config.projects = new_projects
+
+      vim.notify("Projects updated! Found " .. #config.projects .. " projects.", vim.log.levels.INFO)
+    end)
+  end)
+end
+
+-- Posts the current visual selection as a user story to the selected project
 local function post_selection_to_api()
-  -- 1. Get visually selected text
+  if #config.projects == 0 then
+    vim.notify("Project list is empty. Press <leader>ur to fetch projects from the API.", vim.log.levels.WARN)
+    return
+  end
+
   local selection = get_visual_selection()
   if selection == '' then
     vim.notify("No text selected.", vim.log.levels.WARN)
     return
   end
 
-  -- 2. Prepare project list for the UI prompt
   local project_names = {}
   for _, p in ipairs(config.projects) do
     table.insert(project_names, p.name)
   end
 
-  -- 3. Ask the user to select a project
   vim.ui.select(project_names, { prompt = "Select Project:" }, function(choice)
     if not choice then
       vim.notify("Project selection cancelled.", vim.log.levels.WARN)
       return
     end
 
-    -- Find the chosen project's ID
     local project_id
     for _, p in ipairs(config.projects) do
       if p.name == choice then
@@ -63,12 +110,12 @@ local function post_selection_to_api()
       end
     end
 
-    -- 4. Prepare and send the API request
     local payload = {
       project = project_id,
       subject = selection,
     }
     local json_payload = vim.fn.json_encode(payload)
+    local api_endpoint = config.api_domain .. "/api/v1/userstories"
 
     local command = {
       "curl",
@@ -81,7 +128,7 @@ local function post_selection_to_api()
       "-d",
       json_payload,
       "-s",
-      config.api_endpoint,
+      api_endpoint,
     }
 
     vim.notify("Sending to [" .. choice .. "]...")
@@ -98,6 +145,7 @@ local function post_selection_to_api()
 end
 
 -- ===================================================================
--- KEYMAP
+-- KEYMAPS
 -- ===================================================================
 vim.keymap.set({ "v", "x" }, "<leader>u", post_selection_to_api, { desc = "Post selection as User Story" })
+vim.keymap.set("n", "<leader>ur", update_projects_from_api, { desc = "Update projects from API" })
