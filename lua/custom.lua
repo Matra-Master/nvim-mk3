@@ -1,16 +1,13 @@
-
 -- Creando tarea desde vim porque puedo
 
 -- ===================================================================
 -- CONFIGURATION
--- In the next step, we will load this from a file.
+-- Configuration is now managed in lua/custom/core/
 -- ===================================================================
-local config = {
-  auth_token = "COMPLETAR_TOKEN",
-  user_id = 5, -- Your user ID
-  api_domain = "https://mng.tuxdi.com", -- Your API domain
-  projects = {},
-}
+local projects_config = require('custom.core.projects')
+local auth_config = require('custom.core.auth')
+local user_config = require('custom.core.user')
+local domain_config = require('custom.core.domain')
 
 -- ===================================================================
 -- HELPER FUNCTIONS
@@ -30,57 +27,10 @@ end
 -- API CALL LOGIC
 -- ===================================================================
 
--- Fetches the list of projects from the API and updates the config
-local function update_projects_from_api()
-  vim.notify("Fetching projects from API...")
-
-  local url = string.format(
-    "%s/api/v1/projects?member=%s&order_by=memberships__user_order",
-    config.api_domain,
-    config.user_id
-  )
-
-  local command = {
-    "curl",
-    "-X",
-    "GET",
-    "-H",
-    "Content-Type: application/json",
-    "-H",
-    "Authorization: Bearer " .. config.auth_token,
-    "-s",
-    url,
-  }
-
-  vim.system(command, function(obj)
-    vim.schedule(function()
-      if obj.code ~= 0 then
-        vim.notify("Error fetching projects: " .. obj.stderr, vim.log.levels.ERROR)
-        return
-      end
-
-      local ok, projects_data = pcall(vim.fn.json_decode, obj.stdout)
-      if not ok then
-        vim.notify("Error parsing projects JSON from API response.", vim.log.levels.ERROR)
-        return
-      end
-
-      local new_projects = {}
-      for _, project in ipairs(projects_data) do
-        if project.id and project.name then
-          table.insert(new_projects, { id = project.id, name = project.name })
-        end
-      end
-      config.projects = new_projects
-
-      vim.notify("Projects updated! Found " .. #config.projects .. " projects.", vim.log.levels.INFO)
-    end)
-  end)
-end
-
 -- Posts the current visual selection as a user story to the selected project
 local function post_selection_to_api()
-  if #config.projects == 0 then
+  local projects = projects_config.get()
+  if #projects == 0 then
     vim.notify("Project list is empty. Press <leader>ur to fetch projects from the API.", vim.log.levels.WARN)
     return
   end
@@ -92,7 +42,7 @@ local function post_selection_to_api()
   end
 
   local project_names = {}
-  for _, p in ipairs(config.projects) do
+  for _, p in ipairs(projects) do
     table.insert(project_names, p.name)
   end
 
@@ -103,7 +53,7 @@ local function post_selection_to_api()
     end
 
     local project_id
-    for _, p in ipairs(config.projects) do
+    for _, p in ipairs(projects) do
       if p.name == choice then
         project_id = p.id
         break
@@ -115,7 +65,7 @@ local function post_selection_to_api()
       subject = selection,
     }
     local json_payload = vim.fn.json_encode(payload)
-    local api_endpoint = config.api_domain .. "/api/v1/userstories"
+    local api_endpoint = domain_config.get() .. "/api/v1/userstories"
 
     local command = {
       "curl",
@@ -124,7 +74,7 @@ local function post_selection_to_api()
       "-H",
       "Content-Type: application/json",
       "-H",
-      "Authorization: Bearer " .. config.auth_token,
+      "Authorization: Bearer " .. auth_config.get(),
       "-d",
       json_payload,
       "-s",
@@ -148,4 +98,4 @@ end
 -- KEYMAPS
 -- ===================================================================
 vim.keymap.set({ "v", "x" }, "<leader>u", post_selection_to_api, { desc = "Post selection as User Story" })
-vim.keymap.set("n", "<leader>ur", update_projects_from_api, { desc = "Update projects from API" })
+vim.keymap.set("n", "<leader>ur", projects_config.update, { desc = "Update projects from API" })
