@@ -653,6 +653,7 @@ require('lazy').setup({
         default = { 'lazydev', 'lsp', 'snippets', 'path' },
         per_filetype = {
           sql = { 'snippets', 'dadbod', 'buffer' },
+          codecompanion = { 'codecompanion' },
         },
         providers = {
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
@@ -839,7 +840,7 @@ require('lazy').setup({
   },
 })
 
-vim.cmd.colorscheme 'retrobox'
+vim.cmd.colorscheme 'rose-pine'
 vim.cmd [[
   highlight Normal guibg=none
   highlight NonText guibg=none

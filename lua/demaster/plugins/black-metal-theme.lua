@@ -14,13 +14,13 @@ return {
       code_style = {
         comments = "italic",
         conditionals = "none",
-        functions = "none",
+        functions = "bold",
         keywords = "none",
         headings = "bold", -- Markdown headings
         operators = "none",
         keyword_return = "none",
         strings = "bold",
-        variables = "italic",
+        variables = "none",
       },
       plugin = {
         lualine = {
