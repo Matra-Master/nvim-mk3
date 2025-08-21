@@ -1,3 +1,6 @@
+-- Replaces: norcalli/nvim-colorizer.lua
+-- Color highlighting functionality now handled by mini.hipatterns in main mini.nvim config
+
 return {
-  'norcalli/nvim-colorizer.lua'
+  -- Disabled - replaced by mini.hipatterns
 }

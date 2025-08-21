@@ -33,7 +33,7 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  -- guess-indent replaced by mini.indentscope - see mini.nvim configuration above
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -57,18 +57,7 @@ require('lazy').setup({
   -- options to `gitsigns.nvim`.
   --
   -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
+  -- gitsigns replaced by mini.diff - see mini.nvim configuration above
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -84,66 +73,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    opts = {
-      preset = 'helix',
-      -- delay between pressing a key and opening which-key (milliseconds)
-      -- this setting is independent of vim.o.timeoutlen
-      delay = 0,
-      icons = {
-        -- set icon mappings to true if you have a Nerd Font
-        mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
-        keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
-        },
-      },
-
-      -- Document existing key chains
-      spec = {
-        { '<leader>f', group = 'Find' },
-        { '<leader>b', group = 'Buffers' },
-        { '<leader>c', group = 'Code', mode = { 'n', 'x' } },
-        { '<leader>r', group = 'Rename' },
-        { '<leader>t', group = 'Telescope' },
-        { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
-        { '<leader>l', group = 'LSPs' },
-        { '<leader>j', group = 'Jarpoon' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
-      },
-    },
-  },
+  -- which-key replaced by mini.clue - see mini.nvim configuration above
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -152,123 +82,7 @@ require('lazy').setup({
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
-  { -- Fuzzy Finder (files, lsp, etc)
-    'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      { -- If encountering errors, see telescope-fzf-native README for installation instructions
-        'nvim-telescope/telescope-fzf-native.nvim',
-
-        -- `build` is used to run some command when the plugin is installed/updated.
-        -- This is only run then, not every time Neovim starts up.
-        build = 'make',
-
-        -- `cond` is a condition used to determine whether this plugin should be
-        -- installed and loaded.
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-
-      -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-    },
-    config = function()
-      -- Two important keymaps to use while in Telescope are:
-      --  - Insert mode: <c-/>
-      --  - Normal mode: ?
-
-      -- [[ Configure Telescope ]]
-      -- See `:help telescope` and `:help telescope.setup()`
-      require('telescope').setup {
-        defaults = {
-          mappings = {
-            i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-          },
-          vimgrep_arguments = {
-            'rg',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case',
-            '--hidden',
-          },
-        },
-        pickers = {
-          buffers = {
-            mappings = {
-              n = {
-                ['<c-d>'] = require('telescope.actions').delete_buffer,
-              }, -- n
-              i = {
-                ['<C-h>'] = 'which_key',
-                ['<c-d>'] = require('telescope.actions').delete_buffer,
-              }, -- i
-            }, -- mappings
-          },
-          live_grep = {
-            path_display = { 'truncate' },
-            prompt_prefix = '🔍',
-            disable_coordinates = true,
-            layout_strategy = 'vertical',
-            previewer = false,
-          },
-        },
-        extensions = {
-          ['ui-select'] = {
-            require('telescope.themes').get_dropdown(),
-          },
-        },
-      }
-
-      -- Enable Telescope extensions if they are installed
-      pcall(require('telescope').load_extension, 'fzf_native')
-      pcall(require('telescope').load_extension, 'ui-select')
-
-      -- See `:help telescope.builtin`
-      local builtin = require 'telescope.builtin'
-
-      -- TODO: there's this thing where I move between splits with WASD so this telescope wont work form me...
-
-      vim.keymap.set('n', '<leader>th', builtin.help_tags, { desc = '[T]elescope Search [H]elp' })
-      vim.keymap.set('n', '<leader>tk', builtin.keymaps, { desc = '[T]elescope Search [K]eymaps' })
-      vim.keymap.set('n', '<leader>ts', builtin.builtin, { desc = '[T]elescope Search [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>tw', builtin.grep_string, { desc = '[T]elescope Search current [W]ord' })
-      vim.keymap.set('n', '<leader>td', builtin.diagnostics, { desc = '[T]elescope Search [D]iagnostics' })
-      vim.keymap.set('n', '<leader>tr', builtin.resume, { desc = '[T]elescope Search [R]esume' })
-      vim.keymap.set('n', '<leader>t.', builtin.oldfiles, { desc = '[T]elescope Search Recent Files ("." for repeat)' })
-
-      -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set('n', '<leader>f.', function()
-        -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end, { desc = '[/]Fuzzy search in current buffer' })
-      vim.keymap.set('n', '<leader>fh', function()
-        builtin.find_files { hidden = true }
-      end, { desc = '[F]uzzy find with [H]idden' })
-
-      -- It's also possible to pass additional configuration options.
-      --  See `:help telescope.builtin.live_grep()` for information about particular keys
-      vim.keymap.set('n', '<leader>f/', function()
-        builtin.live_grep {
-          grep_open_files = true,
-          prompt_title = 'Live Grep in Open Files',
-        }
-      end, { desc = '[F]ind in Open Files [/]' })
-
-      -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set('n', '<leader>fn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = '[F]ind [N]eovim files' })
-    end,
-  },
+  -- Telescope replaced by mini.pick - see mini.nvim configuration above
 
   -- LSP Plugins
   {
@@ -722,22 +536,15 @@ require('lazy').setup({
     -- end,
   },
 
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim',
-    event = 'VimEnter',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = {
-      signs = true,
-      keywords = {
-        TODO = { icon = " ", color = "info", alt = { "FRAN", "HERE" }},
-      }
-    },
-    vim.keymap.set('n', '<leader>to', ":TodoFzfLua<CR>", { desc = '[T]elescope Search [H]elp' }) --The absolute menace of a command this is
-  },
+  -- todo-comments replaced by mini.hipatterns - see mini.nvim configuration above
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
+      -- Replaces: nvim-autopairs
+      -- Automatic insertion/deletion of bracket pairs
+      require('mini.pairs').setup()
+
       -- Better Around/Inside textobjects
       -- FUCK ME THIS IS GOLDEN
       -- Examples:
@@ -752,6 +559,280 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+
+      -- Replaces: lualine.nvim
+      -- Simple and easy statusline with custom configuration
+      local statusline = require 'mini.statusline'
+      statusline.setup { 
+        use_icons = vim.g.have_nerd_font,
+        content = {
+          active = function()
+            local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
+            local git           = statusline.section_git({ trunc_width = 75 })
+            local diagnostics   = statusline.section_diagnostics({ trunc_width = 75 })
+            local filename      = statusline.section_filename({ trunc_width = 140 })
+            local fileinfo      = statusline.section_fileinfo({ trunc_width = 120 })
+            local location      = statusline.section_location({ trunc_width = 75 })
+
+            return statusline.combine_groups({
+              { hl = mode_hl,                  strings = { mode } },
+              { hl = 'MiniStatuslineDevinfo',  strings = { git, diagnostics } },
+              '%<', -- Mark general truncate point
+              { hl = 'MiniStatuslineFilename', strings = { filename } },
+              '%=', -- End left alignment
+              { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+              { hl = mode_hl,                  strings = { location } },
+            })
+          end,
+        }
+      }
+
+      -- Replaces: gitsigns.nvim  
+      -- Git integration with signs and hunks
+      require('mini.diff').setup({
+        view = {
+          style = 'sign',
+          signs = { add = '+', change = '~', delete = '_' },
+        },
+        mappings = {
+          apply = '<leader>ha',
+          reset = '<leader>hr',
+          textobject = '<leader>hh',
+          goto_first = '[H',
+          goto_prev = '[h',
+          goto_next = ']h',
+          goto_last = ']H',
+        },
+      })
+
+      -- Additional git keymaps for consistency with gitsigns
+      vim.keymap.set('n', '<leader>hs', '<leader>ha', { desc = 'git [s]tage hunk', remap = true })
+      vim.keymap.set('n', '<leader>hp', function()
+        require('mini.diff').toggle_overlay()
+      end, { desc = 'git [p]review hunk' })
+      vim.keymap.set('n', '<leader>hb', function()
+        require('mini.git').show_at_cursor()
+      end, { desc = 'git [b]lame line' })
+
+      -- Replaces: telescope.nvim and fzf-lua
+      -- Fast and flexible picker
+      require('mini.pick').setup({
+        mappings = {
+          caret_left  = '<Left>',
+          caret_right = '<Right>',
+          choose      = '<CR>',
+          choose_in_split = '<C-s>',
+          choose_in_tabpage = '<C-t>',
+          choose_in_vsplit = '<C-v>',
+          choose_marked = '<M-CR>',
+          delete_char = '<BS>',
+          delete_char_right = '<Del>',
+          delete_left = '<C-u>',
+          delete_word = '<C-w>',
+          mark     = '<C-x>',
+          mark_all = '<C-a>',
+          move_down = '<C-n>',
+          move_start = '<C-g>',
+          move_up = '<C-p>',
+          paste = '<C-r>',
+          refine = '<C-Space>',
+          scroll_down = '<C-f>',
+          scroll_left = '<C-h>',
+          scroll_right = '<C-l>',
+          scroll_up = '<C-b>',
+          stop = '<Esc>',
+          toggle_info = '<S-Tab>',
+          toggle_preview = '<Tab>',
+        },
+      })
+
+      -- Setup pick keymaps (replacing telescope/fzf keymaps)
+      vim.keymap.set('n', '<leader><leader>', function() require('mini.pick').builtin.files() end, { desc = '[ ] Search Files' })
+      vim.keymap.set('n', '<leader>ff', function() require('mini.pick').builtin.files() end, { desc = '[F]ind [F]iles' })
+      vim.keymap.set('n', '<leader>fr', function() require('mini.pick').builtin.resume() end, { desc = '[F]ind [R]esume' })
+      vim.keymap.set('n', '<leader>tg', function() require('mini.pick').builtin.grep_live() end, { desc = '[T]elescope [G]rep' })
+      vim.keymap.set('n', '<leader>fl', function() require('mini.pick').builtin.buffers() end, { desc = '[F]ind buffer [L]ist' })
+      vim.keymap.set('n', '<leader>bl', function() require('mini.pick').builtin.buffers() end, { desc = '[B]uffer [L]ist' })
+      vim.keymap.set('n', '<leader>th', function() require('mini.pick').builtin.help() end, { desc = '[T]elescope [H]elp' })
+      vim.keymap.set('n', '<leader>tk', function() require('mini.pick').builtin.keymaps() end, { desc = '[T]elescope [K]eymaps' })
+      vim.keymap.set('n', '<leader>tw', function() require('mini.pick').builtin.grep({pattern = vim.fn.expand('<cword>')}) end, { desc = '[T]elescope current [W]ord' })
+      vim.keymap.set('n', '<leader>td', function() require('mini.pick').builtin.diagnostic() end, { desc = '[T]elescope [D]iagnostics' })
+
+      -- Replaces: oil.nvim  
+      -- File explorer
+      require('mini.files').setup({
+        content = { prefix = require('mini.files').gen_prefix.expanding },
+        mappings = {
+          close       = 'q',
+          go_in       = 'l',
+          go_in_plus  = 'L', 
+          go_out      = 'h',
+          go_out_plus = 'H',
+          reset       = '<BS>',
+          reveal_cwd  = '@',
+          show_help   = 'g?',
+          synchronize = '=',
+          trim_left   = '<',
+          trim_right  = '>',
+        },
+        windows = {
+          preview = true,
+          width_focus = 30,
+          width_nofocus = 15,
+          width_preview = 25,
+        },
+      })
+
+      -- Setup file explorer keymaps (replacing oil keymaps)
+      vim.keymap.set('n', '-', function() require('mini.files').open() end, { desc = 'Open parent directory' })
+      vim.keymap.set('n', '<leader>_', function() require('mini.files').open() end, { desc = 'Open parent directory' })
+
+      -- Replaces: which-key.nvim
+      -- Show key clues for mappings
+      require('mini.clue').setup({
+        triggers = {
+          -- Leader triggers
+          { mode = 'n', keys = '<Leader>' },
+          { mode = 'x', keys = '<Leader>' },
+          -- Built-in completion
+          { mode = 'i', keys = '<C-x>' },
+          -- `g` key
+          { mode = 'n', keys = 'g' },
+          { mode = 'x', keys = 'g' },
+          -- Marks
+          { mode = 'n', keys = "'" },
+          { mode = 'n', keys = '`' },
+          { mode = 'x', keys = "'" },
+          { mode = 'x', keys = '`' },
+          -- Registers
+          { mode = 'n', keys = '"' },
+          { mode = 'x', keys = '"' },
+          { mode = 'i', keys = '<C-r>' },
+          { mode = 'c', keys = '<C-r>' },
+          -- Window commands
+          { mode = 'n', keys = '<C-w>' },
+          -- `z` key
+          { mode = 'n', keys = 'z' },
+          { mode = 'x', keys = 'z' },
+        },
+        clues = {
+          -- Enhance this by adding descriptions for `<Leader>` mapping groups
+          require('mini.clue').gen_clues.builtin_completion(),
+          require('mini.clue').gen_clues.g(),
+          require('mini.clue').gen_clues.marks(),
+          require('mini.clue').gen_clues.registers(),
+          require('mini.clue').gen_clues.windows(),
+          require('mini.clue').gen_clues.z(),
+          
+          -- Custom clues for leader groups
+          { mode = 'n', keys = '<leader>f', desc = '+Find' },
+          { mode = 'n', keys = '<leader>b', desc = '+Buffers' },
+          { mode = 'n', keys = '<leader>c', desc = '+Code' },
+          { mode = 'n', keys = '<leader>r', desc = '+Rename' },
+          { mode = 'n', keys = '<leader>t', desc = '+Telescope' },
+          { mode = 'n', keys = '<leader>h', desc = '+Git Hunk' },
+          { mode = 'n', keys = '<leader>l', desc = '+LSPs' },
+          { mode = 'n', keys = '<leader>j', desc = '+Jarpoon' },
+          { mode = 'n', keys = '<leader>s', desc = '+Search' },
+          { mode = 'n', keys = '<leader>g', desc = '+Git' },
+        },
+      })
+
+      -- Replaces: todo-comments.nvim and nvim-colorizer
+      -- Highlight patterns like TODO, FIXME, colors, etc.
+      require('mini.hipatterns').setup({
+        highlighters = {
+          -- Highlight TODO comments
+          todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsNote' },
+          fran = { pattern = '%f[%w]()FRAN()%f[%W]', group = 'MiniHipatternsNote' },
+          here = { pattern = '%f[%w]()HERE()%f[%W]', group = 'MiniHipatternsNote' },
+          fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+          hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+          note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+          
+          -- Highlight hex colors
+          hex_color = require('mini.hipatterns').gen_highlighter.hex_color(),
+        },
+      })
+
+      -- Replaces: guess-indent.nvim (visualization)
+      -- Indent scope visualization  
+      require('mini.indentscope').setup({
+        draw = {
+          delay = 100,
+          animation = require('mini.indentscope').gen_animation.none(),
+        },
+        mappings = {
+          object_scope = 'ii',
+          object_scope_with_border = 'ai',
+          goto_top = '[i',
+          goto_bottom = ']i',
+        },
+        options = {
+          border = 'both',
+          indent_at_cursor = true,
+          try_as_border = true,
+        },
+        symbol = '│',
+      })
+
+      -- Add commenting functionality
+      require('mini.comment').setup()
+
+      -- Buffer remove functionality for better buffer management
+      require('mini.bufremove').setup()
+      vim.keymap.set('n', '<leader>bd', function() require('mini.bufremove').delete() end, { desc = '[B]uffer [D]elete' })
+
+      -- Git functionality
+      require('mini.git').setup()
+
+      -- Notifications
+      require('mini.notify').setup()
+
+      -- Icons (already used by oil, extending usage)
+      require('mini.icons').setup()
+
+      -- Quick navigation with f/F/t/T on steroids
+      require('mini.jump2d').setup({
+        mappings = {
+          start_jumping = '<CR>',
+        },
+      })
+
+      -- Additional keymaps to maintain compatibility
+      -- Mini.pick additional keymaps
+      vim.keymap.set('n', '<leader>fs', function() 
+        require('mini.pick').builtin.grep_live({ pattern = vim.fn.expand('<cword>') })
+      end, { desc = '[F]ind [S]ymbol under cursor' })
+      
+      vim.keymap.set('n', '<leader>tt', function()
+        require('mini.pick').start({
+          source = {
+            items = vim.fn.getcompletion('', 'color'),
+            name = 'Colorschemes',
+            choose = function(item) 
+              if item then vim.cmd('colorscheme ' .. item) end 
+            end,
+          }
+        })
+      end, { desc = '[T]heme selection' })
+
+      vim.keymap.set('n', '<leader>fj', function()
+        require('mini.pick').start({
+          source = {
+            items = {'files', 'buffers', 'grep_live', 'help', 'resume'},
+            name = 'Mini.pick builtin',
+            choose = function(item)
+              if item then require('mini.pick').builtin[item]() end
+            end,
+          }
+        })
+      end, { desc = '[F]ind builtin [J]options' })
+
+      -- Replace todo search functionality
+      vim.keymap.set('n', '<leader>to', function()
+        require('mini.pick').builtin.grep_live({ pattern = 'TODO|FIXME|HACK|NOTE|FRAN|HERE' })
+      end, { desc = '[T]odo search' })
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -804,9 +885,9 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  require 'kickstart.plugins.autopairs',
+  -- require 'kickstart.plugins.autopairs', -- replaced by mini.pairs
   -- require 'kickstart.plugins.neo-tree',
-  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  -- require 'kickstart.plugins.gitsigns', -- replaced by mini.diff
 
   -- NOTE: The import below can automatically add my own plugins, configuration, etc from `lua/<user>/plugins/*.lua`
   --
