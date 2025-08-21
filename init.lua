@@ -137,16 +137,16 @@ require('lazy').setup({
           map('<leader>ga', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
 
           -- Find references for the word under your cursor.
-          map('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          map('<leader>gr', function() require('mini.pick').builtin.lsp({ scope = 'references' }) end, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
-          map('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          map('<leader>gi', function() require('mini.pick').builtin.lsp({ scope = 'implementation' }) end, '[G]oto [I]mplementation')
 
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('<leader>gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('<leader>gd', function() require('mini.pick').builtin.lsp({ scope = 'definition' }) end, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
@@ -154,16 +154,16 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('<leader>gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+          map('<leader>gO', function() require('mini.pick').builtin.lsp({ scope = 'document_symbol' }) end, 'Open Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('<leader>gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+          map('<leader>gW', function() require('mini.pick').builtin.lsp({ scope = 'workspace_symbol' }) end, 'Open Workspace Symbols')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map('<leader>gt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+          map('<leader>gt', function() require('mini.pick').builtin.lsp({ scope = 'type_definition' }) end, '[G]oto [T]ype Definition')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -657,6 +657,25 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>tk', function() require('mini.pick').builtin.keymaps() end, { desc = '[T]elescope [K]eymaps' })
       vim.keymap.set('n', '<leader>tw', function() require('mini.pick').builtin.grep({pattern = vim.fn.expand('<cword>')}) end, { desc = '[T]elescope current [W]ord' })
       vim.keymap.set('n', '<leader>td', function() require('mini.pick').builtin.diagnostic() end, { desc = '[T]elescope [D]iagnostics' })
+      vim.keymap.set('n', '<leader>tr', function() require('mini.pick').builtin.resume() end, { desc = '[T]elescope [R]esume' })
+      vim.keymap.set('n', '<leader>t.', function() require('mini.pick').builtin.oldfiles() end, { desc = '[T]elescope Recent Files' })
+      
+      -- Additional find keymaps  
+      vim.keymap.set('n', '<leader>f.', function()
+        require('mini.pick').builtin.buf_lines({ scope = 'current' })
+      end, { desc = '[F]uzzy search in current buffer' })
+      
+      vim.keymap.set('n', '<leader>fh', function()
+        require('mini.pick').builtin.files({ tool = 'rg', hidden = true })
+      end, { desc = '[F]uzzy find with [H]idden' })
+      
+      vim.keymap.set('n', '<leader>f/', function()
+        require('mini.pick').builtin.grep_live({ pattern = '', tool = 'rg' })
+      end, { desc = '[F]ind in Open Files [/]' })
+      
+      vim.keymap.set('n', '<leader>fn', function()
+        require('mini.pick').builtin.files({ cwd = vim.fn.stdpath('config') })
+      end, { desc = '[F]ind [N]eovim files' })
 
       -- Replaces: oil.nvim  
       -- File explorer
@@ -686,6 +705,9 @@ require('lazy').setup({
       -- Setup file explorer keymaps (replacing oil keymaps)
       vim.keymap.set('n', '-', function() require('mini.files').open() end, { desc = 'Open parent directory' })
       vim.keymap.set('n', '<leader>_', function() require('mini.files').open() end, { desc = 'Open parent directory' })
+      vim.keymap.set("n", "<leader>-", function()
+        require('mini.files').open()
+      end, {desc = "Open parent directory"})
 
       -- Replaces: which-key.nvim
       -- Show key clues for mappings
