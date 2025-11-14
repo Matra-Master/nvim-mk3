@@ -1,13 +1,14 @@
 return {
   "metalelf0/black-metal-theme-neovim",
-  lazy = false,
-  priority = 1000,
+  lazy = true,
+  -- priority = 1000,
   config = function()
     require("black-metal").setup({
       -- optional configuration here
       -- Can be one of: bathory | burzum | dark-funeral | darkthrone | emperor | gorgoroth | immortal | impaled-nazarene | khold | marduk | mayhem | nile | taake | thyrfing | venom | windir
       theme = "dark-funeral",
       dark_gutter = false,
+      plain_float = true,
       favor_treesitter_hl = true,
       transparent = true,
       term_colors = true,
@@ -21,6 +22,11 @@ return {
         keyword_return = "none",
         strings = "bold",
         variables = "none",
+      },
+      diagnostics = {
+        darker = true, -- Darker colors for diagnostic
+        undercurl = true, -- Use undercurl for diagnostics
+        background = true, -- Use background color for virtual text
       },
       plugin = {
         lualine = {
