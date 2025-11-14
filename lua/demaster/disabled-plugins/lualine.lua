@@ -47,7 +47,7 @@ return {
     sections = {
       lualine_a = {'mode'},
       lualine_b = {'branch', 'diff',
-                    {'diagnostics', sources={'nvim_diagnostic', 'coc'}}},
+                    {'diagnostics', sources={'nvim_diagnostic'}}},
       lualine_c = {
         {'filename', path = 3 }
       },
