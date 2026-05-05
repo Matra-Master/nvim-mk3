@@ -13,11 +13,16 @@ return {
       styles = {
           transparency = true,
       },
-      highlight_groups = {
-        TelescopeBorder = { fg = "highlight_high", bg = "none" },
-        TelescopeNormal = { bg = "none" },
-        TelescopePromptNormal = { bg = "base" },
-        TelescopeResultsNormal = { fg = "subtle", bg = "none" },
+      -- highlight_groups = {
+      --   TelescopeBorder = { fg = "highlight_high", bg = "none" },
+      --   TelescopeNormal = { bg = "none" },
+      --   TelescopePromptNormal = { bg = "base" },
+      --   TelescopeResultsNormal = { fg = "subtle", bg = "none" },
+      -- },
+      palette = {
+        moon ={
+          base = "#000000"
+        }
       },
     }
     -- Load the colorscheme here.

@@ -33,7 +33,7 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  -- 'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -70,6 +70,10 @@ require('lazy').setup({
     },
   },
 
+  {
+    'nvim-lua/plenary.nvim',
+    lazy = true,
+  },
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -154,9 +158,8 @@ require('lazy').setup({
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
+    lazy = true,
     dependencies = {
-      'nvim-lua/plenary.nvim',
       { -- If encountering errors, see telescope-fzf-native README for installation instructions
         'nvim-telescope/telescope-fzf-native.nvim',
 
@@ -286,6 +289,7 @@ require('lazy').setup({
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    event = 'VimEnter',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
@@ -503,9 +507,9 @@ require('lazy').setup({
             },
           },
         },
-        tailwindcss = {
-          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
-        },
+        -- tailwindcss = {
+        --   filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+        -- },
       }
 
       -- Ensure the servers and tools above are installed
@@ -547,7 +551,7 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
-    event = {},
+    lazy = true,
     cmd = { 'ConformInfo' },
     keys = {
       {
@@ -602,6 +606,7 @@ require('lazy').setup({
               require('luasnip').filetype_extend('javascriptreact', { 'html' })
               require('luasnip').filetype_extend('typescriptreact', { 'html' })
               require('luasnip.loaders.from_vscode').lazy_load()
+              require("luasnip.loaders.from_lua").load({paths = "./lua/demaster/snippets"})
             end,
           },
         },
@@ -700,43 +705,43 @@ require('lazy').setup({
     'catppuccin/nvim',
     name = 'catppuccin',
     --priority = 1000, -- Make sure to load this before all the other start plugins.
-    -- init = function()
-    --   -- setup here
-    --   require('catppuccin').setup {
-    --     flavour = 'mocha', -- latte, frappe, macchiato, mocha
-    --     transparent_background = true, -- disables setting the background color.
-    --     -- term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
-    --     highlight_overrides = {
-    --       all = function(colors)
-    --         return {
-    --           LineNr = { fg = colors.text },
-    --         }
-    --       end,
-    --     },
-    --   }
-    --   -- Load the colorscheme here.
-    --   -- vim.cmd.colorscheme 'catppuccin'
-    --
-    --   -- You can configure highlights by doing something like:
-    --   -- vim.cmd.hi 'Comment gui=none'
-    -- end,
+    init = function()
+      -- setup here
+      require('catppuccin').setup {
+        flavour = 'mocha', -- latte, frappe, macchiato, mocha
+        transparent_background = true, -- disables setting the background color.
+        -- term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+        highlight_overrides = {
+          all = function(colors)
+            return {
+              LineNr = { fg = colors.text },
+            }
+          end,
+        },
+      }
+      -- Load the colorscheme here.
+      -- vim.cmd.colorscheme 'catppuccin'
+
+      -- You can configure highlights by doing something like:
+      -- vim.cmd.hi 'Comment gui=none'
+    end,
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim',
-    event = 'VimEnter',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+  {
+    'folke/todo-comments.nvim',
+    event = 'VeryLazy',
     opts = {
       signs = true,
       keywords = {
-        TODO = { icon = " ", color = "info", alt = { "FRAN", "HERE" }},
-      }
+        TODO = { icon = ' ', color = 'info', alt = { 'FRAN', 'HERE' } },
+      },
     },
-    vim.keymap.set('n', '<leader>to', ":TodoFzfLua<CR>", { desc = '[T]elescope Search [H]elp' }) --The absolute menace of a command this is
+    vim.keymap.set('n', '<leader>to', ':TodoFzfLua<CR>', { desc = '[T]elescope Search [H]elp' }), --The absolute menace of a command this is
   },
 
   { -- Collection of various small independent plugins/modules
-    'echasnovski/mini.nvim',
+    'nvim-mini/mini.nvim',
     config = function()
       -- Better Around/Inside textobjects
       -- FUCK ME THIS IS GOLDEN
@@ -752,6 +757,34 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+      local modified_default_statusline_active = function ()
+          local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+          local git           = MiniStatusline.section_git({ trunc_width = 40 })
+          local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
+          local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+          local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
+          local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+          local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+          local location      = MiniStatusline.section_location({ trunc_width = 76 })
+          local search        = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+          return MiniStatusline.combine_groups({
+            { hl = mode_hl,                  strings = { mode } },
+            { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics, lsp } },
+            '%<', -- Mark general truncate point
+            { hl = 'MiniStatuslineFilename', strings = { filename } },
+            '%=', -- End left alignment
+            { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+            { hl = mode_hl,                  strings = { search, location } },
+          })
+      end
+
+      require('mini.statusline').setup({
+        content = {
+          active = modified_default_statusline_active
+        }
+
+      })
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -861,13 +894,14 @@ require('lazy').setup({
   },
 })
 
-vim.cmd.colorscheme 'rose-pine-moon'
-vim.cmd [[
-  highlight Normal guibg=none
-  highlight NonText guibg=none
-  highlight Normal ctermbg=none
-  highlight NonText ctermbg=none
-]]
+--vim.cmd.colorscheme 'dark-funeral'
+vim.cmd.colorscheme 'rose-pine'
+-- vim.cmd [[
+--   highlight Normal guibg=none
+--   highlight NonText guibg=none
+--   highlight Normal ctermbg=none
+--   highlight NonText ctermbg=none
+-- ]]
 --
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

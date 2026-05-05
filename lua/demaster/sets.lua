@@ -118,6 +118,6 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
   desc = 'Obsidian conceal option on markdown buffers',
   pattern = {"*.md"},
   callback = function()
-    vim.opt.conceallevel = 1
+    vim.opt.conceallevel = 2
   end,
 })

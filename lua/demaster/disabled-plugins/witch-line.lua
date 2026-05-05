@@ -1,11 +1,10 @@
 return {
-  'sontungexpt/sttusline',
-  branch = 'table_version',
+  'sontungexpt/witch-line',
   dependencies = {
     'nvim-tree/nvim-web-devicons',
   },
   config = function(_, opts)
-    require('sttusline').setup {
+    require('witch-line').setup {
       components = {
         'mode',
         'git-branch',

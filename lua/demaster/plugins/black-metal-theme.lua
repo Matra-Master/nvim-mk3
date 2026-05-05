@@ -10,7 +10,7 @@ return {
       dark_gutter = false,
       plain_float = true,
       favor_treesitter_hl = true,
-      transparent = true,
+      transparent = false,
       term_colors = true,
       code_style = {
         comments = "italic",
