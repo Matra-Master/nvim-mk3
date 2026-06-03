@@ -606,7 +606,7 @@ require('lazy').setup({
               require('luasnip').filetype_extend('javascriptreact', { 'html' })
               require('luasnip').filetype_extend('typescriptreact', { 'html' })
               require('luasnip.loaders.from_vscode').lazy_load()
-              require("luasnip.loaders.from_lua").load({paths = "./lua/demaster/snippets"})
+              require('luasnip.loaders.from_lua').load { paths = './lua/demaster/snippets' }
             end,
           },
         },
@@ -757,34 +757,33 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
-      local modified_default_statusline_active = function ()
-          local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-          local git           = MiniStatusline.section_git({ trunc_width = 40 })
-          local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
-          local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
-          local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
-          local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
-          local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
-          local location      = MiniStatusline.section_location({ trunc_width = 76 })
-          local search        = MiniStatusline.section_searchcount({ trunc_width = 75 })
+      local modified_default_statusline_active = function()
+        local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 120 }
+        local git = MiniStatusline.section_git { trunc_width = 40 }
+        local diff = MiniStatusline.section_diff { trunc_width = 75 }
+        local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
+        local lsp = MiniStatusline.section_lsp { trunc_width = 75 }
+        local filename = MiniStatusline.section_filename { trunc_width = 140 }
+        local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 120 }
+        local location = MiniStatusline.section_location { trunc_width = 76 }
+        local search = MiniStatusline.section_searchcount { trunc_width = 75 }
 
-          return MiniStatusline.combine_groups({
-            { hl = mode_hl,                  strings = { mode } },
-            { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics, lsp } },
-            '%<', -- Mark general truncate point
-            { hl = 'MiniStatuslineFilename', strings = { filename } },
-            '%=', -- End left alignment
-            { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-            { hl = mode_hl,                  strings = { search, location } },
-          })
+        return MiniStatusline.combine_groups {
+          { hl = mode_hl, strings = { mode } },
+          { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
+          '%<', -- Mark general truncate point
+          { hl = 'MiniStatuslineFilename', strings = { filename } },
+          '%=', -- End left alignment
+          { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+          { hl = mode_hl, strings = { search, location } },
+        }
       end
 
-      require('mini.statusline').setup({
+      require('mini.statusline').setup {
         content = {
-          active = modified_default_statusline_active
-        }
-
-      })
+          active = modified_default_statusline_active,
+        },
+      }
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -793,7 +792,7 @@ require('lazy').setup({
     build = ':TSUpdate',
     branch = 'main',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-    config = function ()
+    config = function()
       local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'hyprlang' }
       require('nvim-treesitter').install(parsers)
 
@@ -801,7 +800,9 @@ require('lazy').setup({
       ---@param language string
       local function treesitter_try_attach(buf, language)
         -- check if parser exists and load it
-        if not vim.treesitter.language.add(language) then return end
+        if not vim.treesitter.language.add(language) then
+          return
+        end
         -- enables syntax highlighting and other treesitter features
         vim.treesitter.start(buf, language)
 
@@ -819,7 +820,9 @@ require('lazy').setup({
           local buf, filetype = args.buf, args.match
 
           local language = vim.treesitter.language.get_lang(filetype)
-          if not language then return end
+          if not language then
+            return
+          end
 
           local installed_parsers = require('nvim-treesitter').get_installed 'parsers'
 
@@ -828,15 +831,15 @@ require('lazy').setup({
             treesitter_try_attach(buf, language)
           elseif vim.tbl_contains(available_parsers, language) then
             -- if a parser is available in `nvim-treesitter` auto install it, and enable it after the installation is done
-            require('nvim-treesitter').install(language):await(function() treesitter_try_attach(buf, language) end)
+            require('nvim-treesitter').install(language):await(function()
+              treesitter_try_attach(buf, language)
+            end)
           else
             -- try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
             treesitter_try_attach(buf, language)
           end
         end,
       })
-
-
     end,
     opts = {
       indent = { enable = true, disable = { 'ruby', 'php' } },
