@@ -841,7 +841,7 @@ require('lazy').setup({
     opts = {
       indent = { enable = true, disable = { 'ruby', 'php' } },
       vim.filetype.add {
-        pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang', ['.env*'] = 'cfg', ['Tiltfile'] = 'starlark' },
+        pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang', ['.env*'] = 'cfg', ['Tiltfile'] = 'starlark', ['*.conf.template'] = 'nginx' },
       },
     },
   },
