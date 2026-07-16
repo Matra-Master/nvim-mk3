@@ -16,13 +16,9 @@ return {
     },
     workspaces = {
       {
-        name = 'new-personal',
-        path = '~/Notes/twentieth-second-brain/source/content',
-      },
-      {
         name = 'work',
         path = '~/Notes/Work',
-      },
+      }
     },
     daily_notes = {
       -- Optional, if you keep daily notes in a separate directory.
