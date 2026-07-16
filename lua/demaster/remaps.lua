@@ -82,3 +82,13 @@ vim.keymap.set("v", "<leader>x", ":lua<CR>", {desc = 'E[X]ecute a Lua snippet'})
 --
 vim.keymap.set('n', '<leader>zo', ':tab split<CR>', { desc = '[O]pen buffer in a tab' })
 vim.keymap.set('n', '<leader>zp', ':tab close<CR>', { desc = 'CLose tab' })
+
+vim.keymap.set('n', '<leader>U', function ()
+  vim.cmd.packadd("nvim.undotree")
+  require("nvim.undotree").open()
+end, { desc = 'Toggle Builtin [U]ndotree' })
+
+
+vim.keymap.set('n', '<leader>R', function()
+  require("demaster.resize-mode").resize_mode()
+end, { desc = '[R]esize mode' })
