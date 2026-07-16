@@ -1,3 +1,5 @@
+require('vim._core.ui2').enable {}
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -577,7 +579,6 @@ require('lazy').setup({
       },
     },
   },
-
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
@@ -898,7 +899,7 @@ require('lazy').setup({
 })
 
 --vim.cmd.colorscheme 'dark-funeral'
-vim.cmd.colorscheme 'rose-pine'
+-- vim.cmd.colorscheme 'rose-pine'
 -- vim.cmd [[
 --   highlight Normal guibg=none
 --   highlight NonText guibg=none
