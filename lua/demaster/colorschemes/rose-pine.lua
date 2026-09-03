@@ -25,9 +25,5 @@ return {
         }
       },
     }
-    -- Load the colorscheme here.
-    -- vim.cmd.colorscheme 'rose-pine'
-    vim.cmd.colorscheme 'rose-pine-moon'
-
   end,
 }
