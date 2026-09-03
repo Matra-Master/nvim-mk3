@@ -697,36 +697,33 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
-
-  { -- You can easily change to a different colorscheme.
+  -- { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    -- 'catppuccin/nvim',
+    -- name = 'catppuccin',
     --priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- setup here
-      require('catppuccin').setup {
-        flavour = 'mocha', -- latte, frappe, macchiato, mocha
-        transparent_background = true, -- disables setting the background color.
-        -- term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
-        highlight_overrides = {
-          all = function(colors)
-            return {
-              LineNr = { fg = colors.text },
-            }
-          end,
-        },
-      }
-      -- Load the colorscheme here.
-      -- vim.cmd.colorscheme 'catppuccin'
-
-      -- You can configure highlights by doing something like:
-      -- vim.cmd.hi 'Comment gui=none'
-    end,
-  },
+    -- init = function()
+    --   -- setup here
+    --   require('catppuccin').setup {
+    --     flavour = 'mocha', -- latte, frappe, macchiato, mocha
+    --     transparent_background = true, -- disables setting the background color.
+    --     -- term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+    --     highlight_overrides = {
+    --           LineNr = { fg = colors.text },
+    --         }
+    --       end,
+    --     },
+    --   }
+    --   -- Load the colorscheme here.
+    --   -- vim.cmd.colorscheme 'catppuccin'
+    --
+    --   -- You can configure highlights by doing something like:
+    --   -- vim.cmd.hi 'Comment gui=none'
+    -- end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   {
@@ -875,6 +872,7 @@ require('lazy').setup({
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
   { import = 'demaster.plugins' },
+  { import = 'demaster.colorschemes' },
   -- { import = 'custom.plugins' },
 }, {
   ui = {
@@ -899,13 +897,13 @@ require('lazy').setup({
 })
 
 --vim.cmd.colorscheme 'dark-funeral'
--- vim.cmd.colorscheme 'rose-pine'
--- vim.cmd [[
---   highlight Normal guibg=none
---   highlight NonText guibg=none
---   highlight Normal ctermbg=none
---   highlight NonText ctermbg=none
--- ]]
+vim.cmd.colorscheme 'miasma'
+vim.cmd [[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+  highlight Normal ctermbg=none
+  highlight NonText ctermbg=none
+]]
 --
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
