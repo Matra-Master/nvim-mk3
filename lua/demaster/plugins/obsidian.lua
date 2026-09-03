@@ -10,11 +10,25 @@ return {
   opts = {
     disable_frontmatter = true,
     templates = {
-      folder = '5 Templates',
+      folder = 'templates',
       date_format = '%Y%m%d',
       time_format = '%H%M',
     },
     workspaces = {
+      {
+        name = 'second-brain',
+        path = '~/Notes/second_brain',
+        overrides = {
+          new_notes_location = "current_dir"
+        }
+      },
+      {
+        name = 'new-personal',
+        path = '~/Notes/twentieth-second-brain/source/content',
+        overrides = {
+          new_notes_location = "current_dir"
+        }
+      },
       {
         name = 'work',
         path = '~/Notes/Work',
@@ -62,6 +76,22 @@ return {
         ObsidianBlockID = { italic = true, fg = "#89ddff" },
         ObsidianHighlightText = { bg = "#75662e" },
       },
+    -- Optional, customize how note IDs are generated given an optional title.
+    ---@param title string|?
+    ---@return string
+    note_id_func = function(title)
+      if title == nil then
+        local suffix = ""
+        -- If title is nil, just add 4 random uppercase letters to the suffix.
+        for _ = 1, 4 do
+          suffix = suffix .. string.char(math.random(65, 90))
+        end
+        return tostring(os.time()) .. "-" .. suffix
+      end
+      -- If title is given
+      return title
+    end,
+
     },
   },
 }
